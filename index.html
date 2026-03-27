@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My lolety</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --rose: #E91E63;
+      --soft-pink: #F8BBD0;
+      --gold: #FFD700;
+      --white: #ffffff;
+      --bg-dark: #0b0b0b;
+      --heart-color: #ff4757;
+    }
+    
+    /* نفس لون الخلفية من الكود الأصلي بالظبط */
+    body {
+      background: linear-gradient(135deg, #200122, #6f0000) !important;
+    }
+    
+    @keyframes floaty {
+       0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.8; }
+       33% { transform: translateY(-12px) translateX(8px) rotate(5deg); opacity: 1; }
+       66% { transform: translateY(-6px) translateX(-4px) rotate(-3deg); opacity: 0.9; }
+    }
+    @keyframes glowPulse {
+       0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0); }
+       50% { box-shadow: 0 0 40px rgba(255,215,0,.8), 0 0 60px rgba(255,107,154,.4); }
+    }
+    @keyframes sparkle {
+       0% { transform: scale(0) rotate(0deg); opacity: 1; }
+       50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+       100% { transform: scale(0) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeUp {
+       from { transform: translateY(30px); opacity: 0; }
+       to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes shake {
+       0%, 100% { transform: translateX(0); }
+       25% { transform: translateX(-5px); }
+       75% { transform: translateX(5px); }
+    }
+    @keyframes heartbeat {
+       0%, 100% { transform: scale(1); }
+       14% { transform: scale(1.1); }
+       28% { transform: scale(1); }
+       42% { transform: scale(1.12); }
+       70% { transform: scale(1); }
+    }
+    
+    /* تأثير القلوب المتحركة من paste.txt */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-heart {
+      position: absolute;
+      bottom: -20px;
+      width: 25px;
+      height: 25px;
+      background-color: var(--heart-color);
+      transform: rotate(-45deg);
+      opacity: 0.7;
+      animation: float-up 12s linear infinite;
+    }
+    .bg-heart:before,
+    .bg-heart:after {
+      content: "";
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      background-color: var(--heart-color);
+      border-radius: 50%;
+    }
+    .bg-heart:before {
+      top: -12px;
+      left: 0;
+    }
+    .bg-heart:after {
+      left: 12px;
+      top: 0;
+    }
+    @keyframes float-up {
+      0% {
+        transform: rotate(-45deg) translateY(0);
+        opacity: 0.8;
+      }
+      100% {
+        transform: rotate(-45deg) translateY(-100vh);
+        opacity: 0;
+      }
+    }
+    @media (max-width: 768px) {
+      .bg-heart {
+        width: 18px;
+        height: 18px;
+      }
+      .bg-heart:before,
+      .bg-heart:after {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    .heart {
+      position: relative;
+      width: 20px; height: 18px;
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff4779 50%, #ff1744 100%);
+      transform: rotate(-45deg);
+      animation: floaty 6s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      width: 20px; height: 30px;
+      position: absolute;
+      left: 10px;
+      top: 0;
+      border-radius: 20px 20px 0 0;
+      background: inherit;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    .heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+    
+    .sparkle {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+      border-radius: 50%;
+      animation: sparkle 2s linear infinite;
+      pointer-events: none;
+    }
+    .glow-input {
+      box-shadow: 0 0 0 0 rgba(255,107,154,0.7);
+      animation: glowPulse 2s infinite;
+    }
+    .unlock-transition {
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    /* بطاقات بيضاء شفافة على الخلفية الداكنة */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden relative font-sans text-white">
+
+  <!-- Floating Hearts Background من paste.txt -->
+  <div class="floating-hearts" id="heartsBackground"></div>
+
+  <!-- Password Screen -->
+  <section id="passwordScreen" class="min-h-screen flex items-center justify-center relative z-40 unlock-transition">
+    <div class="glass-card p-8 md:p-12 rounded-3xl shadow-2xl max-w-md mx-4 relative overflow-hidden text-center">
+      <!-- Animated heart lock -->
+      <div class="relative mx-auto mb-8 w-32 h-32 flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-pink-400 via-rose-500 to-red-500 rounded-full animate-pulse blur-xl opacity-50"></div>
+        <div class="relative w-24 h-24 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full shadow-2xl flex items-center justify-center animate-heartbeat">
+          <span class="heart text-[20px]"></span>
+        </div>
+        <!-- Floating mini hearts -->
+        <span class="absolute -top-4 -right-4 heart" style="width:12px;height:12px;animation-duration:4s;animation-delay:0s;"></span>
+        <span class="absolute -bottom-4 left-4 heart" style="width:14px;height:14px;animation-duration:5s;animation-delay:1s;"></span>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-300 via-rose-300 to-red-300 bg-clip-text text-transparent mb-4 drop-shadow-lg">
+        💖 Unlock Surprise 
+      </h1>
+      <p class="text-xl text-pink-200 mb-2 font-medium">Only for my lolety 💕</p>
+      <p class="text-rose-300 font-semibold mb-8 italic">"Enter the secret we share"</p>
+
+      <!-- Glowing password input -->
+      <div class="relative mb-6">
+        <input id="passwordInput" type="password" placeholder="💕 Our special word..." 
+               class="w-full text-center text-xl rounded-3xl border-4 border-pink-300/50 bg-white/10 backdrop-blur-sm p-6 pl-12 pr-12 focus:outline-none focus:border-rose-400 focus:ring-4 focus:ring-rose-300/50 transition-all duration-500 glow-input font-medium shadow-2xl hover:shadow-3xl text-white placeholder-pink-200">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl">💖</span>
+      </div>
+
+      <button id="unlockBtn" class="w-full md:w-auto px-12 py-5 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 hover:from-pink-600 hover:via-rose-600 hover:to-red-600 text-white text-xl font-bold rounded-3xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all duration-300 border-4 border-transparent hover:border-white/30 animate-pulse">
+        🌟 Open My Surprise
+      </button>
+
+      <p id="passwordHint" class="text-sm text-pink-200 mt-4 font-medium animate-pulse">✨ Hint: Something only we know...</p>
+
+      <!-- Background sparkles -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="sparkle" style="left:10%; top:20%; animation-delay:0s; animation-duration:3s;"></div>
+        <div class="sparkle" style="left:80%; top:30%; animation-delay:1s; animation-duration:2.5s;"></div>
+        <div class="sparkle" style="left:30%; top:70%; animation-delay:0.5s; animation-duration:3.5s;"></div>
+        <div class="sparkle" style="left:70%; top:80%; animation-delay:1.5s; animation-duration:2s;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content (Hidden Initially) -->
+  <main id="mainContent" class="hidden min-h-screen relative z-20">
+    
+    <!-- Hero Section -->
+    <section class="pt-24 pb-20 relative overflow-hidden">
+      <div id="heroSparkles" class="absolute inset-0 pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 text-center relative z-10">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent mb-6 drop-shadow-2xl animate-fade-up">
+            Love you 
+          </h1>
+          <h2 class="text-4xl md:text-6xl font-black bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent mb-8 drop-shadow-xl animate-fade-up" style="animation-delay:0.2s;">
+            My Best Girl 💖
+          </h2>
+          <div class="glass-card p-8 md:p-12 shadow-2xl max-w-3xl mx-auto rounded-3xl">
+            <p id="typewriter" class="text-xl md:text-2xl leading-relaxed font-medium"></p>
+          </div>
+          
+          <!-- New Year Celebration -->
+          <div class="mt-16 p-8 glass-card rounded-3xl shadow-2xl max-w-2xl mx-auto">
+            <h3 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent mb-4">
+              🎉Same Love Forever 🎉
+            </h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Love Letters -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-6 md:px-12">
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div class="glass-card p-10 rounded-3xl shadow-2xl hover:shadow-3xl hover:-translate-y-4 transition-all duration-500 group" data-animate="fade-up">
+            <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <span class="heart text-[16px]"></span>
+            </div>
+            <h3 class="text-2xl font-bold text-pink-200 mb-4">Ro7y💖</h3>
+            <p class="text-lg leading-relaxed">
+بيني وبينك بقى… أنا مش بس بحبك
+أنا بحب دلعك عليا، وضحكتك، وحتى رخامتك 😏💖
+بس أهم حاجة بقى… متغيبيش كتير
+عشان أنا كدا ممكن أجي أخطفك انا مجنون واعملها عادى 🙄😘
+            </p>
+          </div>
+          
+          <div class="glass-card p-10 rounded-3xl shadow-2xl hover:shadow-3xl hover:-translate-y-4 transition-all duration-500 delay-200 group" data-animate="fade-up">
+            <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <span class="text-xl">✨</span>
+            </div>
+            <h3 class="text-2xl font-bold text-yellow-300 mb-4">Mozety♥️</h3>
+            <p class="text-lg leading-relaxed">
+                <b>
+                     بقولك ايه يا مزتي ✨❤️
+                    مهما السنين تتغير، وجودك عمره ما يتغير ولا يقل.
+انتي خطيرة على فكرة… مش كفاية إنك قمر، لا وكمان مخلياني متعلق بيكي بطريقة مش طبيعية 🫣
+                </b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Romantic Quotes -->
+    <section class="py-24 relative">
+      <div class="container mx-auto px-6 md:px-12 text-center max-w-3xl">
+        <div class="space-y-8">
+          <blockquote class="glass-card text-2xl md:text-3xl italic font-semibold p-12 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500" data-animate="fade-up">
+يلا بقى فكّي كدا وأنا أجيبلك شوكولاتة يا مقموصه 😂🍫❤️
+            <div class="mt-6 text-pink-300 font-bold text-lg">Lolo🫶</div>
+          </blockquote>
+          
+          <blockquote class="glass-card text-2xl md:text-3xl italic font-semibold p-12 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border-yellow-400/30" data-animate="fade-up" style="animation-delay:0.2s;">
+بيني وبينك كدا… أنا مش مرتبط بيكي بس
+أنا مدمنك رسمي 😂💖
+            <div class="mt-6 text-yellow-300 font-bold text-lg">Lolety💖</div>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forever Section -->
+    <section class="py-20 text-center relative">
+      <div class="container mx-auto px-6 md:px-12">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent mb-8 drop-shadow-2xl" data-animate="fade-up">
+            Forever & Always 💖
+          </h2>
+          <p class="text-xl md:text-2xl font-semibold mb-12 text-pink-200" data-animate="fade-up" style="animation-delay:0.2s;">
+            my soulmate✨
+          </p>
+          <div class="glass-card inline-flex items-center space-x-4 p-6 rounded-3xl shadow-2xl">
+            <span class="text-4xl">💕</span>
+            <span class="text-2xl font-bold text-rose-300">Love you lolo</span>
+            <span class="text-4xl">💕</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Hearts Container -->
+  <div id="floatingHearts" class="fixed inset-0 pointer-events-none z-30"></div>
+
+  <script>
+    // Configuration
+    const SECRET_PASSWORD = "lolo";
+    const typewriterTexts = [
+"انتي مش طبيعيه… يعني أنا كنت ماشي في حالي كدا، فجأة لقيت نفسي عايزك في كل تفصيلة في يومي 😌"
+
+    ];
+
+    // DOM Elements
+    const passwordScreen = document.getElementById('passwordScreen');
+    const mainContent = document.getElementById('mainContent');
+    const passwordInput = document.getElementById('passwordInput');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const passwordHint = document.getElementById('passwordHint');
+    const typewriter = document.getElementById('typewriter');
+    const floatingHearts = document.getElementById('floatingHearts');
+    const heartsBackground = document.getElementById('heartsBackground');
+
+    // تأثير القلوب المتحركة من paste.txt
+    function createFloatingHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'bg-heart';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 3 + 8) + 's';
+        heart.style.opacity = Math.random() * 0.5 + 0.4;
+        heartsBackground.appendChild(heart);
+
+        setTimeout(() => {
+          if (heart.parentNode) {
+            heart.parentNode.removeChild(heart);
+          }
+        }, 12000);
+      }, 400);
+    }
+
+    // Unlock functionality
+    function unlockSite() {
+      const input = passwordInput.value.trim().toUpperCase();
+      if (input === SECRET_PASSWORD.toUpperCase()) {
+        passwordScreen.style.opacity = '0';
+        passwordScreen.style.transform = 'scale(0.95)';
+        document.body.style.overflow = 'auto';
+        
+        setTimeout(() => {
+          passwordScreen.style.display = 'none';
+          mainContent.classList.remove('hidden');
+          startMagic();
+        }, 800);
+      } else {
+        passwordInput.style.animation = 'shake 0.5s ease-in-out';
+        passwordHint.textContent = '💔 قريبة… جربي الكلمة الخاصة بينا تاني 💕';
+        setTimeout(() => {
+          passwordInput.style.animation = '';
+          passwordHint.textContent = '✨ تلميح: حاجة خاصة بينا بس...';
+        }, 500);
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    }
+
+    unlockBtn.addEventListener('click', unlockSite);
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') unlockSite();
+    });
+
+    // Magic starts here
+    function startMagic() {
+      createSparkles();
+      startTypewriter();
+      startFloatingHearts();
+      initScrollAnimations();
+    }
+
+    // Sparkles effect
+    function createSparkles() {
+      const sparkContainers = ['heroSparkles', 'floatingHearts'];
+      sparkContainers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        for (let i = 0; i < 50; i++) {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle';
+          sparkle.style.left = Math.random() * 100 + '%';
+          sparkle.style.top = Math.random() * 100 + '%';
+          sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+          sparkle.style.animationDelay = Math.random() * 2 + 's';
+          container.appendChild(sparkle);
+        }
+      });
+    }
+
+    // Typewriter effect
+    function startTypewriter() {
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function type() {
+        const currentText = typewriterTexts[textIndex];
+        if (isDeleting) {
+          typewriter.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typewriter.textContent = currentText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        const typeSpeed = isDeleting ? 30 : 80;
+        setTimeout(() => {
+          if (!isDeleting && charIndex === currentText.length) {
+            isDeleting = true;
+            setTimeout(type, 1500);
+          } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % typewriterTexts.length;
+            setTimeout(type, 500);
+          } else {
+            type();
+          }
+        }, typeSpeed);
+      }
+      type();
+    }
+
+    // Floating hearts
+    function startFloatingHearts() {
+      setInterval(() => {
+        if (floatingHearts.children.length < 15) {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.opacity = Math.random() * 0.5 + 0.3;
+          heart.style.animationDuration = Math.random() * 6 + 8 + 's';
+          heart.style.fontSize = Math.random() * 12 + 16 + 'px';
+          floatingHearts.appendChild(heart);
+
+          setTimeout(() => {
+            if (heart.parentNode) {
+              heart.parentNode.removeChild(heart);
+            }
+          }, 15000);
+        }
+      }, 800);
+    }
+
+    // Scroll animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        observer.observe(el);
+      });
+    }
+
+    // Focus password input on load
+    window.addEventListener('load', () => {
+      passwordInput.focus();
+      createFloatingHearts(); // بدء قلوب الخلفية من paste.txt
+    });
+
+    // Prevent context menu on long press (mobile)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+  </script>
+</body>
+</html>
